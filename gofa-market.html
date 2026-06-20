@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOFA MARKET — Ethiopia's Open Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#22C55E;--green-dark:#16A34A;--green-light:#DCFCE7;
+  --blue:#2563EB;--blue-light:#DBEAFE;
+  --orange:#F59E0B;--orange-light:#FEF3C7;
+  --red:#EF4444;--red-light:#FEE2E2;
+  --bg:#F8FAFC;--bg2:#F1F5F9;--card:#FFFFFF;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --text:#0F172A;--text2:#475569;--text3:#94A3B8;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --radius:12px;--radius-sm:8px;--radius-lg:20px;
+  --transition:.2s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+  --bg:#0F172A;--bg2:#1E293B;--card:#1E293B;
+  --border:#334155;--border2:#475569;
+  --text:#F1F5F9;--text2:#94A3B8;--text3:#64748B;
+  --shadow:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.4);
+  --green-light:#052e16;--blue-light:#1e3a8a;--orange-light:#451a03;--red-light:#450a0a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background var(--transition),color var(--transition);min-height:100vh;}
+h1,h2,h3,h4,h5{font-family:'Plus Jakarta Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Inter',sans-serif;}
+input,select,textarea{font-family:'Inter',sans-serif;}
+img{max-width:100%;display:block;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;gap:16px;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.35rem;color:var(--green);}
+.nav-logo span{background:linear-gradient(135deg,var(--green),#16A34A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--green),#16A34A);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;font-weight:800;flex-shrink:0;}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:8px;}
+.nav-link{padding:6px 14px;border-radius:var(--radius-sm);font-size:.9rem;font-weight:500;color:var(--text2);transition:all var(--transition);white-space:nowrap;background:none;border:none;}
+.nav-link:hover,.nav-link.active{color:var(--green);background:var(--green-light);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.88rem;border:none;transition:all var(--transition);cursor:pointer;white-space:nowrap;}
+.btn-sm{padding:5px 12px;font-size:.82rem;}
+.btn-lg{padding:12px 28px;font-size:1rem;}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;box-shadow:0 2px 8px rgba(34,197,94,.3);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.4);}
+.btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--border);border-color:var(--border2);}
+.btn-blue{background:linear-gradient(135deg,var(--blue),#1D4ED8);color:#fff;}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,.3);}
+.btn-orange{background:linear-gradient(135deg,var(--orange),#D97706);color:#fff;}
+.btn-orange:hover{transform:translateY(-1px);}
+.btn-red{background:linear-gradient(135deg,var(--red),#DC2626);color:#fff;}
+.btn-red:hover{transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{background:var(--bg2);}
+.btn-icon{width:38px;height:38px;padding:0;border-radius:var(--radius-sm);display:inline-flex;align-items:center;justify-content:center;font-size:1rem;}
+.hamburger{display:none;flex-direction:column;gap:4px;padding:8px;background:none;border:none;cursor:pointer;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all var(--transition);}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 50%,#064E3B 100%);padding:90px 20px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="30" cy="30" r="1.5" fill="rgba(255,255,255,.06)"/></svg>') repeat;}
+.hero-content{position:relative;z-index:1;max-width:800px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:6px 16px;border-radius:99px;font-size:.83rem;font-weight:600;margin-bottom:28px;}
+.hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:20px;}
+.hero h1 span{color:var(--green);}
+.hero p{font-size:1.15rem;color:rgba(255,255,255,.7);margin-bottom:36px;line-height:1.7;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:60px;flex-wrap:wrap;}
+.hero-stat{text-align:center;color:rgba(255,255,255,.7);}
+.hero-stat strong{display:block;font-size:1.8rem;font-weight:800;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;}
+
+/* SECTION */
+.section{max-width:1300px;margin:0 auto;padding:60px 20px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;gap:16px;flex-wrap:wrap;}
+.section-title{font-size:1.6rem;font-weight:800;}
+.section-title span{color:var(--green);}
+.section-sub{color:var(--text2);font-size:.95rem;margin-top:4px;}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;}
+.cards-grid-3{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all var(--transition);position:relative;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border2);}
+.card-img{width:100%;height:180px;object-fit:cover;background:var(--bg2);}
+.card-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,var(--bg2),var(--border));display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.card-body{padding:16px;}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:99px;font-size:.75rem;font-weight:600;}
+.tag-green{background:var(--green-light);color:var(--green-dark);}
+.tag-blue{background:var(--blue-light);color:var(--blue);}
+.tag-orange{background:var(--orange-light);color:#92400E;}
+.tag-red{background:var(--red-light);color:var(--red);}
+.tag-gray{background:var(--bg2);color:var(--text2);}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:6px;line-height:1.4;}
+.card-desc{font-size:.84rem;color:var(--text2);line-height:1.6;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-price{font-size:1.2rem;font-weight:800;color:var(--green);margin-bottom:12px;}
+.card-price span{font-size:.78rem;font-weight:500;color:var(--text2);}
+.card-footer{display:flex;gap:8px;align-items:center;}
+.card-footer-col{flex:1;}
+.card-meta{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text3);margin-top:8px;}
+.card-meta svg{flex-shrink:0;}
+.fav-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all var(--transition);flex-shrink:0;}
+.fav-btn:hover,.fav-btn.active{background:var(--red-light);border-color:var(--red);color:var(--red);}
+.fav-btn.active{color:var(--red);}
+
+/* STORE CARD */
+.store-card{padding:20px;display:flex;gap:14px;align-items:flex-start;}
+.store-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;background:linear-gradient(135deg,var(--green-light),var(--green));overflow:hidden;}
+.store-icon img{width:100%;height:100%;object-fit:cover;}
+.store-info{flex:1;min-width:0;}
+.store-name{font-weight:700;font-size:1rem;margin-bottom:4px;}
+.store-category{font-size:.8rem;color:var(--text3);}
+.store-desc{font-size:.83rem;color:var(--text2);margin-top:6px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* STATUS BADGE */
+.status{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:.75rem;font-weight:700;}
+.status::before{content:'';width:6px;height:6px;border-radius:50%;}
+.status-pending{background:var(--orange-light);color:#92400E;} .status-pending::before{background:var(--orange);}
+.status-confirmed{background:var(--blue-light);color:var(--blue);} .status-confirmed::before{background:var(--blue);}
+.status-shipped{background:var(--orange-light);color:#7C3AED;} .status-shipped::before{background:#8B5CF6;}
+.status-delivered{background:var(--green-light);color:var(--green-dark);} .status-delivered::before{background:var(--green);}
+.status-cancelled{background:var(--red-light);color:var(--red);} .status-cancelled::before{background:var(--red);}
+.status-approved{background:var(--green-light);color:var(--green-dark);} .status-approved::before{background:var(--green);}
+.status-pending-approval{background:var(--orange-light);color:#92400E;} .status-pending-approval::before{background:var(--orange);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity var(--transition);}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal{background:var(--card);border-radius:var(--radius-lg);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(.95) translateY(10px);transition:all var(--transition);}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-lg{max-width:680px;}
+.modal-header{padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-header h2{font-size:1.2rem;font-weight:700;}
+.modal-close{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;transition:all var(--transition);}
+.modal-close:hover{background:var(--red-light);border-color:var(--red);color:var(--red);}
+.modal-body{padding:20px 24px 24px;}
+.modal-footer{padding:0 24px 24px;display:flex;gap:10px;justify-content:flex-end;}
+
+/* FORM */
+.form-group{margin-bottom:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+label{display:block;font-size:.83rem;font-weight:600;color:var(--text2);margin-bottom:6px;}
+.required{color:var(--red);}
+input,select,textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.9rem;transition:all var(--transition);outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.12);}
+input::placeholder,textarea::placeholder{color:var(--text3);}
+textarea{resize:vertical;min-height:80px;}
+.form-hint{font-size:.78rem;color:var(--text3);margin-top:4px;}
+.form-error{font-size:.78rem;color:var(--red);margin-top:4px;}
+.field-ok{border-color:var(--green)!important;}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.divider-text{display:flex;align-items:center;gap:12px;color:var(--text3);font-size:.8rem;margin:16px 0;}
+.divider-text::before,.divider-text::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* DASHBOARD LAYOUT */
+.dash-layout{display:flex;min-height:calc(100vh - 64px);}
+.dash-sidebar{width:240px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);padding:20px 0;}
+.dash-nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:.9rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all var(--transition);border:none;background:none;width:100%;text-align:left;}
+.dash-nav-item:hover{background:var(--bg2);color:var(--text);}
+.dash-nav-item.active{background:var(--green-light);color:var(--green-dark);font-weight:600;}
+.dash-nav-item .icon{width:18px;text-align:center;}
+.dash-content{flex:1;padding:32px;overflow-x:hidden;}
+.dash-header{margin-bottom:28px;}
+.dash-title{font-size:1.5rem;font-weight:800;margin-bottom:4px;}
+.dash-subtitle{color:var(--text2);font-size:.9rem;}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.stat-label{font-size:.8rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.stat-value{font-size:1.8rem;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;}
+.stat-green{color:var(--green);}
+.stat-blue{color:var(--blue);}
+.stat-orange{color:var(--orange);}
+.stat-red{color:var(--red);}
+
+/* TABLE */
+.table-wrapper{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+th{background:var(--bg2);padding:11px 14px;text-align:left;font-size:.8rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);}
+td{padding:12px 14px;font-size:.88rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:0;}
+tr:hover td{background:var(--bg2);}
+
+/* SEARCH BAR */
+.search-bar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.search-input-wrap{flex:1;position:relative;min-width:200px;}
+.search-input-wrap input{padding-left:40px;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;}
+.filter-row select{min-width:140px;width:auto;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;background:var(--bg2);border-radius:var(--radius-sm);padding:4px;margin-bottom:24px;overflow-x:auto;}
+.tab{padding:8px 18px;border-radius:6px;font-size:.87rem;font-weight:600;color:var(--text2);background:none;border:none;cursor:pointer;transition:all var(--transition);white-space:nowrap;}
+.tab.active{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.toast{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:12px;min-width:280px;max-width:360px;pointer-events:auto;animation:toastIn .3s cubic-bezier(.4,0,.2,1) forwards;font-size:.88rem;}
+.toast.out{animation:toastOut .3s cubic-bezier(.4,0,.2,1) forwards;}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px) scale(.95)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px) scale(.95)}}
+.toast-icon{width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;}
+.toast-success .toast-icon{background:var(--green-light);color:var(--green-dark);}
+.toast-error .toast-icon{background:var(--red-light);color:var(--red);}
+.toast-info .toast-icon{background:var(--blue-light);color:var(--blue);}
+.toast-warning .toast-icon{background:var(--orange-light);color:#92400E;}
+.toast-msg{flex:1;font-weight:500;}
+.toast-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:1rem;padding:2px;}
+
+/* ORDER TRACKING */
+.order-track{display:flex;align-items:center;gap:0;margin:20px 0;}
+.track-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
+.track-dot{width:28px;height:28px;border-radius:50%;border:2.5px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--text3);z-index:1;position:relative;}
+.track-dot.done{border-color:var(--green);background:var(--green);color:#fff;}
+.track-dot.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
+.track-label{font-size:.7rem;color:var(--text3);text-align:center;font-weight:500;}
+.track-label.done,.track-label.active{color:var(--text);}
+.track-line{flex:1;height:2.5px;background:var(--border);margin-top:-14px;}
+.track-line.done{background:var(--green);}
+
+/* DELIVERY CARD */
+.delivery-summary{background:var(--bg2);border-radius:var(--radius);padding:16px;margin-top:16px;}
+.delivery-summary h4{font-size:.85rem;font-weight:700;margin-bottom:10px;color:var(--text2);}
+.delivery-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:.88rem;border-bottom:1px dashed var(--border);}
+.delivery-row:last-child{border-bottom:0;font-weight:700;color:var(--text);}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text2);}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4;}
+.empty-title{font-weight:700;font-size:1.1rem;margin-bottom:8px;color:var(--text);}
+.empty-desc{font-size:.88rem;line-height:1.6;max-width:320px;margin:0 auto 20px;}
+
+/* CATEGORY CHIPS */
+.cat-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.cat-chip{padding:7px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);font-size:.84rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all var(--transition);}
+.cat-chip:hover,.cat-chip.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
+
+/* MOBILE NAV DRAWER */
+.mobile-nav{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--card);z-index:200;border-right:1px solid var(--border);transform:translateX(-100%);transition:transform var(--transition);padding-top:64px;overflow-y:auto;}
+.mobile-nav.open{transform:translateX(0);}
+.mobile-nav-link{display:block;padding:13px 24px;font-size:.95rem;font-weight:500;color:var(--text2);border:none;background:none;width:100%;text-align:left;cursor:pointer;transition:all var(--transition);}
+.mobile-nav-link:hover,.mobile-nav-link.active{background:var(--green-light);color:var(--green-dark);}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;opacity:0;pointer-events:none;transition:opacity var(--transition);}
+.nav-overlay.open{opacity:1;pointer-events:auto;}
+
+/* ORDER CARD */
+.order-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px;transition:all var(--transition);}
+.order-card:hover{border-color:var(--border2);}
+.order-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.order-id{font-size:.75rem;color:var(--text3);font-family:monospace;}
+.order-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.order-meta-item label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:2px;}
+.order-meta-item p{font-size:.87rem;font-weight:500;}
+
+/* FEATURES SECTION */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;}
+.feature-icon{font-size:2rem;margin-bottom:14px;}
+.feature-title{font-weight:700;margin-bottom:8px;}
+.feature-desc{font-size:.85rem;color:var(--text2);line-height:1.6;}
+
+/* ADDRESS CARD */
+.address-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;transition:all var(--transition);}
+.address-card.default{border-color:var(--green);}
+.address-default-badge{position:absolute;top:10px;right:10px;}
+
+/* PRODUCT FORM */
+.img-preview{width:100%;height:150px;border-radius:var(--radius-sm);object-fit:cover;border:1px solid var(--border);margin-top:8px;display:none;}
+.img-preview.show{display:block;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .dash-layout{flex-direction:column;}
+  .dash-sidebar{width:100%;border-right:0;border-bottom:1px solid var(--border);padding:10px 0;display:flex;overflow-x:auto;}
+  .dash-nav-item{flex-shrink:0;white-space:nowrap;padding:8px 16px;}
+  .dash-content{padding:20px;}
+  .form-row{grid-template-columns:1fr;}
+  .hero{padding:60px 20px;}
+}
+@media(max-width:600px){
+  .hero h1{font-size:2rem;}
+  .hero-stat strong{font-size:1.4rem;}
+  .hero-stats{gap:20px;}
+  .section{padding:40px 16px;}
+  .modal{border-radius:var(--radius);}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .order-meta{grid-template-columns:1fr;}
+}
+
+/* UTIL */
+.text-center{text-align:center;}
+.text-right{text-align:right;}
+.text-green{color:var(--green);}
+.text-red{color:var(--red);}
+.text-blue{color:var(--blue);}
+.text-muted{color:var(--text2);}
+.font-mono{font-family:monospace;}
+.mt-4{margin-top:4px;} .mt-8{margin-top:8px;} .mt-12{margin-top:12px;} .mt-16{margin-top:16px;} .mt-24{margin-top:24px;}
+.mb-4{margin-bottom:4px;} .mb-8{margin-bottom:8px;} .mb-12{margin-bottom:12px;} .mb-16{margin-bottom:16px;} .mb-24{margin-bottom:24px;}
+.flex{display:flex;} .flex-wrap{flex-wrap:wrap;} .items-center{align-items:center;} .justify-between{justify-content:space-between;} .gap-8{gap:8px;} .gap-12{gap:12px;} .gap-16{gap:16px;}
+.w-full{width:100%;}
+.hidden{display:none!important;}
+.badge{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:99px;font-size:.7rem;font-weight:700;}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.95rem;flex-shrink:0;}
+.whatsapp-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;border-radius:var(--radius-sm);padding:9px 18px;font-weight:600;font-size:.88rem;transition:all var(--transition);}
+.whatsapp-btn:hover{background:#1EBE5A;transform:translateY(-1px);}
+.spinner{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.section-divider{height:1px;background:var(--border);max-width:1300px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')" style="cursor:pointer;">
+      <div class="logo-icon">G</div>
+      <span>GOFA MARKET</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="showPage('home')">Home</button>
+      <button class="nav-link" onclick="showPage('marketplace')">Marketplace</button>
+      <button class="nav-link" onclick="showPage('stores')">Stores</button>
+      <button class="nav-link" id="dashNavBtn" onclick="showPage('dashboard')" style="display:none">Dashboard</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-icon btn-secondary" onclick="toggleDarkMode()" id="darkBtn" title="Toggle dark mode">🌙</button>
+      <div id="authButtons">
+        <button class="btn btn-ghost btn-sm" onclick="openModal('loginModal')">Login</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('registerModal')">Register</button>
+      </div>
+      <div id="userMenu" style="display:none;align-items:center;gap:10px;">
+        <div class="avatar" id="navAvatar">A</div>
+        <span id="navUsername" style="font-size:.88rem;font-weight:600;"></span>
+        <button class="btn btn-sm btn-ghost" onclick="logout()">Logout</button>
+      </div>
+      <button class="hamburger" onclick="toggleMobileNav()" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-link" onclick="showPage('home');closeMobileNav()">🏠 Home</button>
+  <button class="mobile-nav-link" onclick="showPage('marketplace');closeMobileNav()">🛒 Marketplace</button>
+  <button class="mobile-nav-link" onclick="showPage('stores');closeMobileNav()">🏪 Stores</button>
+  <button class="mobile-nav-link" id="mobileDashLink" onclick="showPage('dashboard');closeMobileNav()" style="display:none">📊 Dashboard</button>
+  <hr style="margin:10px 0;border-color:var(--border);">
+  <button class="mobile-nav-link" onclick="openModal('loginModal');closeMobileNav()">🔑 Login</button>
+  <button class="mobile-nav-link" onclick="openModal('registerModal');closeMobileNav()">✨ Register</button>
+</div>
+
+<!-- PAGES -->
+<div id="pageHome">
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🇪🇹 Ethiopia's #1 Open Marketplace</div>
+    <h1>Buy, Sell & Discover<br><span>Everything Ethiopian</span></h1>
+    <p>From Addis Ababa to Dire Dawa — shop products & services from local sellers with fast delivery to your door.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="showPage('marketplace')">🛒 Shop Now</button>
+      <button class="btn btn-lg" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);" onclick="openModal('registerModal')">Become a Seller</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong id="heroProductCount">0</strong>Products & Services</div>
+      <div class="hero-stat"><strong id="heroStoreCount">0</strong>Active Stores</div>
+      <div class="hero-stat"><strong id="heroOrderCount">0</strong>Orders Placed</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-title">Why <span>GOFA MARKET</span>?</div><div class="section-sub">Everything you need in one place</div></div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">🚚</div><div class="feature-title">Fast Delivery</div><div class="feature-desc">Order products and get them delivered to your address in 2-5 business days across Ethiopia.</div></div>
+    <div class="feature-card"><div class="feature-icon">🏪</div><div class="feature-title">Local Stores</div><div class="feature-desc">Support Ethiopian businesses. Every seller has their own verified store page.</div></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">Secure Orders</div><div class="feature-desc">All orders are tracked from placement to delivery. Stay informed at every step.</div></div>
+    <div class="feature-card"><div class="feature-icon">📱</div><div class="feature-title">Mobile Ready</div><div class="feature-desc">Shop from anywhere, on any device. GOFA MARKET is fully mobile-optimized.</div></div>
+  </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-title">🔥 Featured <span>Products</span></div></div>
+    <button class="btn btn-secondary btn-sm" onclick="showPage('marketplace')">View All →</button>
+  </div>
+  <div class="cards-grid" id="homeFeaturedProducts"></div>
+</div>
+<div class="section-divider"></div>
+
+<!-- FEATURED STORES -->
+<div class="section">
+  <div class="section-header">
+    <div><div class="section-title">🏪 Top <span>Stores</span></div></div>
+    <button class="btn btn-secondary btn-sm" onclick="showPage('stores')">All Stores →</button>
+  </div>
+  <div class="cards-grid cards-grid-3" id="homeFeaturedStores"></div>
+</div>
+</div>
+
+<!-- MARKETPLACE PAGE -->
+<div id="pageMarketplace" style="display:none;">
+  <div class="section">
+    <div class="section-header">
+      <div><div class="section-title">🛒 <span>Marketplace</span></div><div class="section-sub">Products & Services from verified stores</div></div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="marketSearch" placeholder="Search products & services..." oninput="renderMarketplace()">
+      </div>
+      <div class="filter-row">
+        <select id="marketType" onchange="renderMarketplace()"><option value="">All Types</option><option value="product">Products</option><option value="service">Services</option></select>
+        <select id="marketCategory" onchange="renderMarketplace()"><option value="">All Categories</option></select>
+        <select id="marketSort" onchange="renderMarketplace()"><option value="">Sort By</option><option value="price-asc">Price ↑</option><option value="price-desc">Price ↓</option><option value="name">Name</option></select>
+      </div>
+    </div>
+    <div class="cat-chips" id="marketCatChips"></div>
+    <div class="cards-grid" id="marketplaceGrid"></div>
+  </div>
+</div>
+
+<!-- STORES PAGE -->
+<div id="pageStores" style="display:none;">
+  <div class="section">
+    <div class="section-header">
+      <div><div class="section-title">🏪 All <span>Stores</span></div><div class="section-sub">Verified Ethiopian businesses</div></div>
+    </div>
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="storeSearch" placeholder="Search stores..." oninput="renderStoresPage()">
+      </div>
+      <select id="storeCategoryFilter" onchange="renderStoresPage()"><option value="">All Categories</option></select>
+    </div>
+    <div class="cards-grid cards-grid-3" id="storesGrid"></div>
+  </div>
+</div>
+
+<!-- STORE DETAIL PAGE -->
+<div id="pageStoreDetail" style="display:none;">
+  <div id="storeDetailContent"></div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="pageDashboard" style="display:none;">
+  <div class="dash-layout">
+    <div class="dash-sidebar" id="dashSidebar"></div>
+    <div class="dash-content" id="dashContent"></div>
+  </div>
+</div>
+
+<!-- ======= MODALS ======= -->
+
+<!-- LOGIN -->
+<div class="modal-overlay" id="loginModal" onclick="handleOverlayClick(event,'loginModal')">
+  <div class="modal">
+    <div class="modal-header"><h2>👋 Welcome Back</h2><button class="modal-close" onclick="closeModal('loginModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Username or Email <span class="required">*</span></label><input type="text" id="loginUser" placeholder="Enter username or email"></div>
+      <div class="form-group"><label>Password <span class="required">*</span></label><input type="password" id="loginPass" placeholder="Enter password"></div>
+      <div id="loginError" class="form-error" style="display:none;"></div>
+      <button class="btn btn-primary w-full mt-12" onclick="loginUser()" style="justify-content:center;">Login to GOFA MARKET</button>
+      <div class="divider-text">or</div>
+      <button class="btn btn-secondary w-full" style="justify-content:center;" onclick="closeModal('loginModal');openModal('registerModal')">Create an account</button>
+      <p style="font-size:.78rem;color:var(--text3);text-align:center;margin-top:14px;">Demo: admin/admin123 | eyasu/123 | alemitu/123</p>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="modal-overlay" id="registerModal" onclick="handleOverlayClick(event,'registerModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2>✨ Create Account</h2><button class="modal-close" onclick="closeModal('registerModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Username <span class="required">*</span></label><input type="text" id="regUsername" placeholder="e.g. abebe123"></div>
+        <div class="form-group"><label>Email <span class="required">*</span></label><input type="email" id="regEmail" placeholder="you@example.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Password <span class="required">*</span></label><input type="password" id="regPass" placeholder="Min 4 characters"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="09XXXXXXXX"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Role <span class="required">*</span></label><select id="regRole"><option value="buyer">Buyer</option><option value="seller">Seller</option></select></div>
+        <div class="form-group"><label>City</label><input type="text" id="regAddress" placeholder="Addis Ababa"></div>
+      </div>
+      <div id="regError" class="form-error" style="display:none;"></div>
+      <button class="btn btn-primary w-full mt-12" onclick="registerUser()" style="justify-content:center;">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal" onclick="handleOverlayClick(event,'orderModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2>📦 Place Order</h2><button class="modal-close" onclick="closeModal('orderModal')">✕</button></div>
+    <div class="modal-body">
+      <div id="orderItemSummary" style="background:var(--bg2);border-radius:var(--radius);padding:14px;margin-bottom:16px;display:flex;gap:12px;align-items:center;">
+        <div style="font-size:2rem;" id="orderItemIcon">📦</div>
+        <div>
+          <div id="orderItemName" style="font-weight:700;font-size:1rem;"></div>
+          <div id="orderItemPrice" style="color:var(--green);font-weight:700;font-size:1.1rem;"></div>
+          <div id="orderItemStore" style="font-size:.8rem;color:var(--text2);"></div>
+        </div>
+      </div>
+      <div id="quantityGroup" class="form-group"><label>Quantity <span class="required">*</span></label><input type="number" id="orderQty" min="1" value="1" oninput="updateOrderTotal()"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name <span class="required">*</span></label><input type="text" id="orderName" placeholder="Your full name"></div>
+        <div class="form-group"><label>Phone Number <span class="required">*</span></label><input type="tel" id="orderPhone" placeholder="09XXXXXXXX"></div>
+      </div>
+      <div class="form-group"><label>Street Address <span class="required">*</span></label><input type="text" id="orderStreet" placeholder="e.g. Bole Road, Near Atlas Hotel"></div>
+      <div class="form-row">
+        <div class="form-group"><label>City <span class="required">*</span></label><select id="orderCity"><option value="">Select city</option><option>Addis Ababa</option><option>Dire Dawa</option><option>Mekelle</option><option>Gondar</option><option>Bahir Dar</option><option>Hawassa</option><option>Adama</option><option>Jimma</option><option>Harar</option><option>Jijiga</option><option>Shashamane</option><option>Other</option></select></div>
+        <div class="form-group"><label>Sub-city / Woreda</label><input type="text" id="orderSubCity" placeholder="e.g. Bole, Yeka"></div>
+      </div>
+      <div class="form-group"><label>Special Instructions</label><textarea id="orderInstructions" placeholder="Any notes for delivery..." rows="2"></textarea></div>
+      <div id="savedAddrSection" style="display:none;margin-bottom:12px;">
+        <label>Use Saved Address</label>
+        <select id="savedAddrSelect" onchange="fillSavedAddress(this.value)">
+          <option value="">— Select saved address —</option>
+        </select>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;cursor:pointer;margin-bottom:14px;">
+        <input type="checkbox" id="saveAddrCheck"> Save this address for future orders
+      </label>
+      <div class="delivery-summary">
+        <h4>Order Summary</h4>
+        <div class="delivery-row"><span>Item Price</span><span id="summaryPrice">0 ETB</span></div>
+        <div class="delivery-row" id="qtyRow" style="display:none"><span>Quantity</span><span id="summaryQty">1</span></div>
+        <div class="delivery-row"><span>Delivery Fee</span><span id="summaryDelivery">50 ETB</span></div>
+        <div class="delivery-row"><span style="font-weight:700;">Total</span><span id="summaryTotal" style="color:var(--green);">0 ETB</span></div>
+      </div>
+      <div id="orderError" class="form-error mt-8" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('orderModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitOrder()">✅ Confirm Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal-overlay" id="orderSuccessModal" onclick="handleOverlayClick(event,'orderSuccessModal')">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-body" style="text-align:center;padding:36px 24px;">
+      <div style="font-size:3.5rem;margin-bottom:16px;">🎉</div>
+      <h2 style="margin-bottom:10px;">Order Placed!</h2>
+      <p style="color:var(--text2);margin-bottom:20px;">Your order has been successfully placed and will be processed soon.</p>
+      <div style="background:var(--green-light);border-radius:var(--radius);padding:16px;margin-bottom:20px;">
+        <div style="font-size:.82rem;color:var(--green-dark);margin-bottom:4px;">Order ID</div>
+        <div id="successOrderId" style="font-family:monospace;font-weight:700;font-size:1rem;color:var(--green-dark);"></div>
+        <div style="margin-top:10px;font-size:.85rem;color:var(--green-dark);">🚚 Estimated Delivery: 2–5 Business Days</div>
+      </div>
+      <button class="btn btn-primary w-full" style="justify-content:center;" onclick="closeModal('orderSuccessModal');showPage('dashboard')">View My Orders</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal" onclick="handleOverlayClick(event,'productModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2 id="productModalTitle">Add Product</h2><button class="modal-close" onclick="closeModal('productModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editProductId">
+      <div class="form-row">
+        <div class="form-group"><label>Product Name <span class="required">*</span></label><input type="text" id="pName" placeholder="e.g. iPhone 13"></div>
+        <div class="form-group"><label>Price (ETB) <span class="required">*</span></label><input type="number" id="pPrice" placeholder="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Category <span class="required">*</span></label><select id="pCategory"><option value="">Select</option><option>Electronics</option><option>Clothing</option><option>Food & Beverage</option><option>Home & Furniture</option><option>Beauty & Health</option><option>Vehicles</option><option>Agriculture</option><option>Sports</option><option>Books</option><option>Other</option></select></div>
+        <div class="form-group"><label>Condition</label><select id="pCondition"><option value="New">New</option><option value="Like New">Like New</option><option value="Used">Used</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Stock Quantity</label><input type="number" id="pStock" value="1" min="0"></div>
+        <div class="form-group"><label>Image URL</label><input type="text" id="pImage" placeholder="https://..." oninput="previewImg('pImage','pImgPreview')"></div>
+      </div>
+      <img class="img-preview" id="pImgPreview" alt="Preview">
+      <div class="form-group mt-12"><label>Description</label><textarea id="pDesc" placeholder="Describe your product..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('productModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT SERVICE MODAL -->
+<div class="modal-overlay" id="serviceModal" onclick="handleOverlayClick(event,'serviceModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2 id="serviceModalTitle">Add Service</h2><button class="modal-close" onclick="closeModal('serviceModal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editServiceId">
+      <div class="form-row">
+        <div class="form-group"><label>Service Name <span class="required">*</span></label><input type="text" id="sName" placeholder="e.g. MacBook Repair"></div>
+        <div class="form-group"><label>Price (ETB) <span class="required">*</span></label><input type="number" id="sPrice" placeholder="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Category</label><select id="sCategory"><option value="">Select</option><option>Repair & Maintenance</option><option>Delivery & Transport</option><option>Education & Tutoring</option><option>Health & Wellness</option><option>Design & Creative</option><option>IT & Tech</option><option>Finance & Legal</option><option>Cleaning</option><option>Other</option></select></div>
+        <div class="form-group"><label>Location <span class="required">*</span></label><select id="sLocation"><option value="">Select city</option><option>Addis Ababa</option><option>Dire Dawa</option><option>Mekelle</option><option>Gondar</option><option>Bahir Dar</option><option>Hawassa</option><option>Adama</option><option>Jimma</option><option>Other</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Provider Name <span class="required">*</span></label><input type="text" id="sProvider" placeholder="Your name"></div>
+        <div class="form-group"><label>Contact Info <span class="required">*</span></label><input type="text" id="sContact" placeholder="09XXXXXXXX"></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="sDesc" placeholder="Describe your service..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('serviceModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveService()">Save Service</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE STORE MODAL -->
+<div class="modal-overlay" id="storeModal" onclick="handleOverlayClick(event,'storeModal')">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2>🏪 Create Your Store</h2><button class="modal-close" onclick="closeModal('storeModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Store Name <span class="required">*</span></label><input type="text" id="storeName" placeholder="e.g. Abebe Electronics"></div>
+        <div class="form-group"><label>Category <span class="required">*</span></label><select id="storeCategory"><option value="">Select</option><option>Electronics</option><option>Clothing & Fashion</option><option>Food & Beverage</option><option>Home & Furniture</option><option>Beauty & Health</option><option>Vehicles & Parts</option><option>Agriculture</option><option>Books & Stationery</option><option>Sports & Fitness</option><option>Services</option><option>Other</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Owner Name <span class="required">*</span></label><input type="text" id="storeOwner" placeholder="Your full name"></div>
+        <div class="form-group"><label>Phone Number <span class="required">*</span></label><input type="tel" id="storePhone" placeholder="09XXXXXXXX"></div>
+      </div>
+      <div class="form-group"><label>Location <span class="required">*</span></label><select id="storeLocation"><option value="">Select city</option><option>Addis Ababa</option><option>Dire Dawa</option><option>Mekelle</option><option>Gondar</option><option>Bahir Dar</option><option>Hawassa</option><option>Adama</option><option>Jimma</option><option>Harar</option><option>Jijiga</option><option>Other</option></select></div>
+      <div class="form-group"><label>Store Image URL</label><input type="text" id="storeImage" placeholder="https://picsum.photos/400/200" oninput="previewImg('storeImage','storeImgPreview')"></div>
+      <img class="img-preview" id="storeImgPreview" alt="Preview">
+      <div class="form-group mt-12"><label>Description</label><textarea id="storeDesc" placeholder="Tell buyers about your store..."></textarea></div>
+      <div id="storeError" class="form-error" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('storeModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="createStore()">Submit for Approval</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// =============================================
+//  DATA / STORAGE
+// =============================================
+const DB_KEY = 'gofaMarket_db';
+
+function getDB() {
+  const raw = localStorage.getItem(DB_KEY);
+  if (raw) return JSON.parse(raw);
+  return initDB();
+}
+function saveDB(db) { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+function initDB() {
+  const db = {
+    users:[
+      {id:1,username:'admin',password:'admin123',email:'admin@gofa.com',role:'admin',phone:'',address:'',createdAt:new Date().toISOString()},
+      {id:2,username:'eyasu',password:'123',email:'eyasu@example.com',role:'seller',phone:'0912345678',address:'Addis Ababa',createdAt:new Date().toISOString()},
+      {id:3,username:'alemitu',password:'123',email:'alemitu@example.com',role:'buyer',phone:'0922334455',address:'Bole, Addis',createdAt:new Date().toISOString()}
+    ],
+    stores:[
+      {id:1,name:'Eyasu Electronics',category:'Electronics',description:'Best electronics in town. We sell genuine products with warranty.',location:'Addis Ababa',ownerName:'Eyasu Tadesse',phone:'0912345678',approved:true,userId:2,image:'https://picsum.photos/400/200?random=100',createdAt:new Date().toISOString()}
+    ],
+    products:[
+      {id:1,name:'iPhone 13',price:55000,category:'Electronics',condition:'Like New',description:'Excellent condition, 128GB, space gray. Comes with charger and original box.',image:'https://picsum.photos/300/200?random=1',stock:5,storeId:1,storeName:'Eyasu Electronics',sellerId:2,createdAt:new Date().toISOString()},
+      {id:2,name:'Samsung 4K TV',price:32000,category:'Electronics',condition:'New',description:'55-inch 4K Smart TV, Netflix and YouTube built-in.',image:'https://picsum.photos/300/200?random=2',stock:3,storeId:1,storeName:'Eyasu Electronics',sellerId:2,createdAt:new Date().toISOString()},
+      {id:3,name:'AirPods Pro',price:8500,category:'Electronics',condition:'New',description:'Original Apple AirPods Pro with noise cancellation.',image:'https://picsum.photos/300/200?random=3',stock:10,storeId:1,storeName:'Eyasu Electronics',sellerId:2,createdAt:new Date().toISOString()}
+    ],
+    services:[
+      {id:1,name:'MacBook Repair',price:1500,category:'Repair & Maintenance',description:'Expert laptop repair service. All brands. Screen replacement, battery, motherboard.',location:'Addis Ababa',providerName:'Eyasu Tadesse',contact:'0912345678',storeId:1,storeName:'Eyasu Electronics',sellerId:2,createdAt:new Date().toISOString()},
+      {id:2,name:'iPhone Screen Replacement',price:800,category:'Repair & Maintenance',description:'Genuine screen replacement for all iPhone models. Same-day service.',location:'Addis Ababa',providerName:'Eyasu Tadesse',contact:'0912345678',storeId:1,storeName:'Eyasu Electronics',sellerId:2,createdAt:new Date().toISOString()}
+    ],
+    orders:[],
+    favorites:[],
+    addresses:[]
+  };
+  saveDB(db);
+  return db;
+}
+
+// =============================================
+//  SESSION
+// =============================================
+let currentUser = null;
+try { currentUser = JSON.parse(sessionStorage.getItem('gofaUser')); } catch(e){}
+
+function setSession(user) {
+  currentUser = user;
+  sessionStorage.setItem('gofaUser', JSON.stringify(user));
+}
+function clearSession() {
+  currentUser = null;
+  sessionStorage.removeItem('gofaUser');
+}
+
+// =============================================
+//  AUTH
+// =============================================
+function registerUser() {
+  const username = document.getElementById('regUsername').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const phone = document.getElementById('regPhone').value.trim();
+  const role = document.getElementById('regRole').value;
+  const address = document.getElementById('regAddress').value.trim();
+  const errEl = document.getElementById('regError');
+  errEl.style.display='none';
+  if (!username||!email||!pass) { errEl.textContent='Please fill all required fields.'; errEl.style.display='block'; return; }
+  if (pass.length < 4) { errEl.textContent='Password must be at least 4 characters.'; errEl.style.display='block'; return; }
+  const db = getDB();
+  if (db.users.find(u=>u.username===username)) { errEl.textContent='Username already taken.'; errEl.style.display='block'; return; }
+  if (db.users.find(u=>u.email===email)) { errEl.textContent='Email already registered.'; errEl.style.display='block'; return; }
+  const user = {id:Date.now(),username,email,password:pass,phone,role,address,createdAt:new Date().toISOString()};
+  db.users.push(user);
+  saveDB(db);
+  closeModal('registerModal');
+  setSession(user);
+  updateNav();
+  showToast('Account created! Welcome to GOFA MARKET 🎉','success');
+  showPage('home');
+  ['regUsername','regEmail','regPass','regPhone','regAddress'].forEach(id=>document.getElementById(id).value='');
+}
+
+function loginUser() {
+  const ident = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display='none';
+  if (!ident||!pass) { errEl.textContent='Please enter credentials.'; errEl.style.display='block'; return; }
+  const db = getDB();
+  const user = db.users.find(u=>(u.username===ident||u.email===ident)&&u.password===pass);
+  if (!user) { errEl.textContent='Invalid username or password.'; errEl.style.display='block'; return; }
+  closeModal('loginModal');
+  setSession(user);
+  updateNav();
+  showToast(`Welcome back, ${user.username}! 👋`,'success');
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+function logout() {
+  clearSession();
+  updateNav();
+  showPage('home');
+  showToast('Logged out successfully.','info');
+}
+
+// =============================================
+//  NAV
+// =============================================
+function updateNav() {
+  const loggedIn = !!currentUser;
+  document.getElementById('authButtons').style.display = loggedIn ? 'none' : 'flex';
+  document.getElementById('userMenu').style.display = loggedIn ? 'flex' : 'none';
+  if (loggedIn) {
+    document.getElementById('navAvatar').textContent = currentUser.username[0].toUpperCase();
+    document.getElementById('navUsername').textContent = currentUser.username;
+  }
+  const showDash = loggedIn;
+  document.getElementById('dashNavBtn').style.display = showDash ? 'block' : 'none';
+  document.getElementById('mobileDashLink').style.display = showDash ? 'block' : 'none';
+}
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+  document.getElementById('navOverlay').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('open');
+}
+
+// =============================================
+//  DARK MODE
+// =============================================
+function toggleDarkMode() {
+  const dark = document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+  document.getElementById('darkBtn').textContent = dark ? '🌙' : '☀️';
+  localStorage.setItem('gofaDark', dark ? '' : '1');
+}
+(function initDark(){
+  if (localStorage.getItem('gofaDark')==='1') {
+    document.documentElement.setAttribute('data-theme','dark');
+    document.getElementById('darkBtn').textContent='☀️';
+  }
+})();
+
+// =============================================
+//  PAGES
+// =============================================
+const pages = ['home','marketplace','stores','storeDetail','dashboard'];
+function showPage(name) {
+  pages.forEach(p => {
+    const el = document.getElementById('page'+p.charAt(0).toUpperCase()+p.slice(1));
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1));
+  if (target) { target.style.display='block'; window.scrollTo(0,0); }
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  if (name==='home') renderHome();
+  if (name==='marketplace') renderMarketplace();
+  if (name==='stores') renderStoresPage();
+  if (name==='dashboard') { if (!currentUser) { openModal('loginModal'); return; } renderDashboard(); }
+}
+
+// =============================================
+//  HOME
+// =============================================
+function renderHome() {
+  const db = getDB();
+  const products = db.products;
+  const stores = db.stores.filter(s=>s.approved);
+  const orders = db.orders;
+  document.getElementById('heroProductCount').textContent = (products.length + db.services.length) + '+';
+  document.getElementById('heroStoreCount').textContent = stores.length + '+';
+  document.getElementById('heroOrderCount').textContent = orders.length + '+';
+  // Featured products
+  const fp = products.slice(0,4);
+  document.getElementById('homeFeaturedProducts').innerHTML = fp.length ? fp.map(p=>productCardHTML(p)).join('') : '<div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">No products yet</div></div>';
+  // Featured stores
+  const fs = stores.slice(0,3);
+  document.getElementById('homeFeaturedStores').innerHTML = fs.length ? fs.map(s=>storeCardHTML(s)).join('') : '<div class="empty-state"><div class="empty-icon">🏪</div><div class="empty-title">No stores yet</div></div>';
+}
+
+// =============================================
+//  MARKETPLACE
+// =============================================
+function renderMarketplace() {
+  const db = getDB();
+  const q = (document.getElementById('marketSearch')?.value||'').toLowerCase();
+  const type = document.getElementById('marketType')?.value||'';
+  const cat = document.getElementById('marketCategory')?.value||'';
+  const sort = document.getElementById('marketSort')?.value||'';
+  // Build categories
+  const allCats = [...new Set([...db.products.map(p=>p.category),...db.services.map(s=>s.category||'')].filter(Boolean))];
+  const catSel = document.getElementById('marketCategory');
+  if (catSel) { const cur=catSel.value; catSel.innerHTML='<option value="">All Categories</option>'+allCats.map(c=>`<option ${c===cur?'selected':''}>${c}</option>`).join(''); }
+  // Cat chips
+  const chips = document.getElementById('marketCatChips');
+  if (chips) chips.innerHTML = ['All',...allCats].map(c=>`<button class="cat-chip ${(c==='All'&&!cat)||(c===cat)?'active':''}" onclick="filterByCat('${c}')">${c}</button>`).join('');
+  // Items
+  let items = [];
+  if (type!=='service') {
+    db.products.forEach(p=>{
+      const store = db.stores.find(s=>s.id===p.storeId);
+      if (!store||!store.approved) return;
+      items.push({...p,itemType:'product'});
+    });
+  }
+  if (type!=='product') {
+    db.services.forEach(s=>{
+      const store = db.stores.find(st=>st.id===s.storeId);
+      if (!store||!store.approved) return;
+      items.push({...s,itemType:'service'});
+    });
+  }
+  if (q) items = items.filter(i=>(i.name||'').toLowerCase().includes(q)||(i.description||'').toLowerCase().includes(q));
+  if (cat) items = items.filter(i=>i.category===cat);
+  if (sort==='price-asc') items.sort((a,b)=>a.price-b.price);
+  if (sort==='price-desc') items.sort((a,b)=>b.price-a.price);
+  if (sort==='name') items.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  const grid = document.getElementById('marketplaceGrid');
+  if (!grid) return;
+  if (!items.length) { grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><div class="empty-title">No items found</div><div class="empty-desc">Try adjusting your search or filters</div></div>'; return; }
+  grid.innerHTML = items.map(i=>i.itemType==='product'?productCardHTML(i):serviceCardHTML(i)).join('');
+}
+
+function filterByCat(cat) {
+  const sel = document.getElementById('marketCategory');
+  if (sel) sel.value = cat==='All'?'':cat;
+  renderMarketplace();
+}
+
+// =============================================
+//  STORES PAGE
+// =============================================
+function renderStoresPage() {
+  const db = getDB();
+  const q = (document.getElementById('storeSearch')?.value||'').toLowerCase();
+  const cat = document.getElementById('storeCategoryFilter')?.value||'';
+  const allCats = [...new Set(db.stores.map(s=>s.category).filter(Boolean))];
+  const catSel = document.getElementById('storeCategoryFilter');
+  if (catSel) { const cur=catSel.value; catSel.innerHTML='<option value="">All Categories</option>'+allCats.map(c=>`<option ${c===cur?'selected':''}>${c}</option>`).join(''); }
+  let stores = db.stores.filter(s=>s.approved);
+  if (q) stores = stores.filter(s=>(s.name||'').toLowerCase().includes(q)||(s.description||'').toLowerCase().includes(q));
+  if (cat) stores = stores.filter(s=>s.category===cat);
+  const grid = document.getElementById('storesGrid');
+  if (!grid) return;
+  grid.innerHTML = stores.length ? stores.map(s=>storeCardHTML(s)).join('') : '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🏪</div><div class="empty-title">No stores found</div></div>';
+}
+
+// =============================================
+//  STORE DETAIL
+// =============================================
+function openStore(storeId) {
+  const db = getDB();
+  const store = db.stores.find(s=>s.id===storeId);
+  if (!store) return;
+  const products = db.products.filter(p=>p.storeId===storeId);
+  const services = db.services.filter(s=>s.storeId===storeId);
+  const owner = db.users.find(u=>u.id===store.userId);
+  const html = `
+    <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);padding:60px 20px 40px;text-align:center;">
+      <div style="max-width:800px;margin:0 auto;">
+        <div style="width:80px;height:80px;border-radius:20px;overflow:hidden;background:var(--green-light);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">
+          ${store.image?`<img src="${store.image}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">🏪`:'🏪'}
+        </div>
+        <h1 style="color:#fff;font-size:2rem;margin-bottom:8px;">${store.name}</h1>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;">
+          <span class="tag tag-green">${store.category}</span>
+          <span style="color:rgba(255,255,255,.7);font-size:.9rem;">📍 ${store.location}</span>
+          <span style="color:rgba(255,255,255,.7);font-size:.9rem;">👤 ${store.ownerName}</span>
+        </div>
+        <p style="color:rgba(255,255,255,.65);max-width:500px;margin:0 auto 20px;line-height:1.7;">${store.description||''}</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://wa.me/251${(store.phone||'').replace(/^0/,'')}" target="_blank" class="whatsapp-btn">💬 WhatsApp</a>
+          <a href="tel:${store.phone}" class="btn btn-secondary btn-sm">📞 ${store.phone}</a>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div style="display:flex;gap:12px;margin-bottom:12px;font-size:.9rem;color:var(--text2);">
+        <span>📦 ${products.length} Products</span>
+        <span>🛠️ ${services.length} Services</span>
+      </div>
+      ${products.length?`<div class="section-title mb-16">Products</div><div class="cards-grid">${products.map(p=>productCardHTML(p)).join('')}</div>`:''}
+      ${services.length?`<div class="section-title mb-16 mt-24">Services</div><div class="cards-grid">${services.map(s=>serviceCardHTML(s)).join('')}</div>`:''}
+      ${!products.length&&!services.length?'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No items yet</div></div>':''}
+      <div class="mt-24"><button class="btn btn-ghost" onclick="history.back()">← Back</button></div>
+    </div>`;
+  document.getElementById('storeDetailContent').innerHTML = html;
+  showPage('storeDetail');
+}
+
+// =============================================
+//  CARD HTML
+// =============================================
+function fmtPrice(n) { return Number(n).toLocaleString() + ' ETB'; }
+function isFav(id,type) { const db=getDB(); return db.favorites.some(f=>f.id===id&&f.type===type&&f.userId===(currentUser?.id)); }
+
+function productCardHTML(p) {
+  const fav = isFav(p.id,'product');
+  return `<div class="card">
+    ${p.image?`<img class="card-img" src="${p.image}" alt="${p.name}" onerror="this.src='https://picsum.photos/300/200?random=${p.id}'">`:`<div class="card-img-placeholder">📦</div>`}
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-green">${p.category||'Product'}</span>
+        <span class="tag tag-gray">${p.condition||'New'}</span>
+        ${p.stock>0?'':'<span class="tag tag-red">Out of stock</span>'}
+      </div>
+      <div class="card-title">${p.name}</div>
+      <div class="card-desc">${p.description||''}</div>
+      <div class="card-price">${fmtPrice(p.price)} <span>/ item</span></div>
+      <div class="card-meta">📍 ${p.storeName||''} &nbsp;·&nbsp; 📦 Stock: ${p.stock??'?'}</div>
+      <div class="card-footer mt-12">
+        <div class="card-footer-col">
+          <button class="btn btn-primary btn-sm w-full" style="justify-content:center;" onclick="openOrderModal(${p.id},'product')" ${p.stock<=0?'disabled':''}>🛒 Order Now</button>
+        </div>
+        <button class="fav-btn ${fav?'active':''}" onclick="toggleFavorite(${p.id},'product',this)" title="Add to favorites">❤</button>
+        ${p.storeId?`<button class="btn btn-ghost btn-sm btn-icon" onclick="openStore(${p.storeId})" title="View store">🏪</button>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function serviceCardHTML(s) {
+  const fav = isFav(s.id,'service');
+  return `<div class="card">
+    <div class="card-img-placeholder">🛠️</div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-blue">${s.category||'Service'}</span>
+        <span class="tag tag-gray">📍 ${s.location||''}</span>
+      </div>
+      <div class="card-title">${s.name}</div>
+      <div class="card-desc">${s.description||''}</div>
+      <div class="card-price">${fmtPrice(s.price)} <span>/ service</span></div>
+      <div class="card-meta">👤 ${s.providerName||''} &nbsp;·&nbsp; 📞 ${s.contact||''}</div>
+      <div class="card-footer mt-12">
+        <div class="card-footer-col">
+          <button class="btn btn-blue btn-sm w-full" style="justify-content:center;" onclick="openOrderModal(${s.id},'service')">📋 Book Now</button>
+        </div>
+        <button class="fav-btn ${fav?'active':''}" onclick="toggleFavorite(${s.id},'service',this)" title="Add to favorites">❤</button>
+        ${s.storeId?`<button class="btn btn-ghost btn-sm btn-icon" onclick="openStore(${s.storeId})" title="View store">🏪</button>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function storeCardHTML(s) {
+  const db = getDB();
+  const productCount = db.products.filter(p=>p.storeId===s.id).length;
+  const serviceCount = db.services.filter(sv=>sv.storeId===s.id).length;
+  return `<div class="card" style="cursor:pointer;" onclick="openStore(${s.id})">
+    <div class="store-card">
+      <div class="store-icon" style="background:linear-gradient(135deg,var(--green-light),var(--green));">
+        ${s.image?`<img src="${s.image}" alt="${s.name}" onerror="this.remove()">`:'🏪'}
+      </div>
+      <div class="store-info">
+        <div class="store-name">${s.name}</div>
+        <div class="store-category">${s.category} · 📍 ${s.location}</div>
+        <div class="store-desc">${s.description||''}</div>
+        <div class="card-meta mt-8">📦 ${productCount} products &nbsp;·&nbsp; 🛠️ ${serviceCount} services</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// =============================================
+//  FAVORITES
+// =============================================
+function toggleFavorite(id, type, btn) {
+  if (!currentUser) { openModal('loginModal'); return; }
+  const db = getDB();
+  const idx = db.favorites.findIndex(f=>f.id===id&&f.type===type&&f.userId===currentUser.id);
+  if (idx>=0) { db.favorites.splice(idx,1); btn.classList.remove('active'); showToast('Removed from favorites','info'); }
+  else { db.favorites.push({id,type,userId:currentUser.id}); btn.classList.add('active'); showToast('Added to favorites ❤️','success'); }
+  saveDB(db);
+}
+
+// =============================================
+//  ORDER
+// =============================================
+let pendingOrder = null;
+
+function openOrderModal(itemId, itemType) {
+  if (!currentUser) { openModal('loginModal'); showToast('Please login to place an order','info'); return; }
+  const db = getDB();
+  const item = itemType==='product' ? db.products.find(p=>p.id===itemId) : db.services.find(s=>s.id===itemId);
+  if (!item) return;
+  pendingOrder = {itemId, itemType, item};
+  document.getElementById('orderItemName').textContent = item.name;
+  document.getElementById('orderItemPrice').textContent = fmtPrice(item.price);
+  document.getElementById('orderItemStore').textContent = item.storeName||item.providerName||'';
+  document.getElementById('orderItemIcon').textContent = itemType==='product'?'📦':'🛠️';
+  document.getElementById('quantityGroup').style.display = itemType==='product'?'block':'none';
+  document.getElementById('qtyRow').style.display = itemType==='product'?'flex':'none';
+  document.getElementById('orderQty').value = 1;
+  // Pre-fill user info
+  document.getElementById('orderName').value = currentUser.username||'';
+  document.getElementById('orderPhone').value = currentUser.phone||'';
+  // Saved addresses
+  const addrs = getAddresses();
+  const savedSec = document.getElementById('savedAddrSection');
+  const savedSel = document.getElementById('savedAddrSelect');
+  if (addrs.length > 0) {
+    savedSec.style.display='block';
+    savedSel.innerHTML='<option value="">— Select saved address —</option>'+addrs.map((a,i)=>`<option value="${i}">${a.label||a.street+', '+a.city}</option>`).join('');
+  } else { savedSec.style.display='none'; }
+  document.getElementById('orderError').style.display='none';
+  updateOrderTotal();
+  openModal('orderModal');
+}
+
+function fillSavedAddress(idx) {
+  if (idx==='') return;
+  const addrs = getAddresses();
+  const a = addrs[parseInt(idx)];
+  if (!a) return;
+  document.getElementById('orderName').value = a.name||currentUser.username;
+  document.getElementById('orderPhone').value = a.phone||currentUser.phone;
+  document.getElementById('orderStreet').value = a.street||'';
+  document.getElementById('orderCity').value = a.city||'';
+  document.getElementById('orderSubCity').value = a.subCity||'';
+  updateOrderTotal();
+}
+
+function updateOrderTotal() {
+  if (!pendingOrder) return;
+  const price = pendingOrder.item.price;
+  const qty = pendingOrder.itemType==='product' ? (parseInt(document.getElementById('orderQty').value)||1) : 1;
+  const subtotal = price * qty;
+  const delivery = subtotal >= 1000 ? 0 : 50;
+  const total = subtotal + delivery;
+  document.getElementById('summaryPrice').textContent = fmtPrice(price);
+  document.getElementById('summaryQty').textContent = qty;
+  document.getElementById('summaryDelivery').textContent = delivery===0?'Free (over 1000 ETB)':fmtPrice(delivery);
+  document.getElementById('summaryTotal').textContent = fmtPrice(total);
+}
+
+function placeOrder(itemId, itemType, quantity, deliveryData) {
+  const db = getDB();
+  const item = itemType==='product' ? db.products.find(p=>p.id===itemId) : db.services.find(s=>s.id===itemId);
+  if (!item) return null;
+  const qty = quantity||1;
+  const subtotal = item.price * qty;
+  const delivery = subtotal >= 1000 ? 0 : 50;
+  const order = {
+    orderId:'GF'+Date.now(),
+    itemId, itemType,
+    itemName: item.name,
+    price: item.price,
+    quantity: qty,
+    deliveryFee: delivery,
+    total: subtotal + delivery,
+    buyerName: deliveryData.name,
+    buyerId: currentUser.id,
+    sellerId: item.sellerId,
+    storeId: item.storeId,
+    storeName: item.storeName||'',
+    deliveryAddress: deliveryData,
+    status:'pending',
+    orderDate: new Date().toISOString()
+  };
+  db.orders.push(order);
+  // Reduce stock for products
+  if (itemType==='product') {
+    const p = db.products.find(p=>p.id===itemId);
+    if (p && p.stock>0) p.stock = Math.max(0, p.stock-qty);
+  }
+  saveDB(db);
+  return order;
+}
+
+function submitOrder() {
+  if (!pendingOrder) return;
+  const name = document.getElementById('orderName').value.trim();
+  const phone = document.getElementById('orderPhone').value.trim();
+  const street = document.getElementById('orderStreet').value.trim();
+  const city = document.getElementById('orderCity').value;
+  const subCity = document.getElementById('orderSubCity').value.trim();
+  const instructions = document.getElementById('orderInstructions').value.trim();
+  const qty = pendingOrder.itemType==='product' ? (parseInt(document.getElementById('orderQty').value)||1) : 1;
+  const errEl = document.getElementById('orderError');
+  errEl.style.display='none';
+  if (!name||!phone||!street||!city) { errEl.textContent='Please fill all required delivery fields.'; errEl.style.display='block'; return; }
+  const deliveryData = {name,phone,street,city,subCity,instructions,label:`${street}, ${city}`};
+  if (document.getElementById('saveAddrCheck').checked) { saveAddress(deliveryData); }
+  const order = placeOrder(pendingOrder.itemId, pendingOrder.itemType, qty, deliveryData);
+  closeModal('orderModal');
+  document.getElementById('successOrderId').textContent = order.orderId;
+  openModal('orderSuccessModal');
+  pendingOrder = null;
+}
+
+function getOrdersByBuyer(userId) { return getDB().orders.filter(o=>o.buyerId===userId); }
+function getOrdersBySeller(sellerId) { return getDB().orders.filter(o=>o.sellerId===sellerId); }
+function getAllOrders() { return getDB().orders; }
+
+function updateOrderStatus(orderId, newStatus) {
+  const db = getDB();
+  const o = db.orders.find(o=>o.orderId===orderId);
+  if (!o) return;
+  o.status = newStatus;
+  saveDB(db);
+  showToast(`Order status updated to ${newStatus}`,'success');
+  renderDashboard();
+}
+
+function cancelOrder(orderId) {
+  const db = getDB();
+  const o = db.orders.find(o=>o.orderId===orderId);
+  if (!o||o.status!=='pending') return;
+  o.status = 'cancelled';
+  saveDB(db);
+  showToast('Order cancelled','info');
+  renderDashboard();
+}
+
+// =============================================
+//  ADDRESSES
+// =============================================
+function saveAddress(addrData) {
+  const db = getDB();
+  db.addresses.push({...addrData, userId: currentUser.id, id: Date.now()});
+  saveDB(db);
+  showToast('Address saved ✅','success');
+}
+function getAddresses() {
+  if (!currentUser) return [];
+  return getDB().addresses.filter(a=>a.userId===currentUser.id);
+}
+
+// =============================================
+//  STORES (CRUD)
+// =============================================
+function createStore() {
+  const name = document.getElementById('storeName').value.trim();
+  const category = document.getElementById('storeCategory').value;
+  const ownerName = document.getElementById('storeOwner').value.trim();
+  const phone = document.getElementById('storePhone').value.trim();
+  const location = document.getElementById('storeLocation').value;
+  const image = document.getElementById('storeImage').value.trim();
+  const description = document.getElementById('storeDesc').value.trim();
+  const errEl = document.getElementById('storeError');
+  errEl.style.display='none';
+  if (!name||!category||!ownerName||!phone||!location) { errEl.textContent='Please fill all required fields.'; errEl.style.display='block'; return; }
+  const db = getDB();
+  if (db.stores.find(s=>s.userId===currentUser.id)) { errEl.textContent='You already have a store.'; errEl.style.display='block'; return; }
+  const store = {id:Date.now(),name,category,description,location,ownerName,phone,approved:false,userId:currentUser.id,image,createdAt:new Date().toISOString()};
+  db.stores.push(store);
+  saveDB(db);
+  closeModal('storeModal');
+  showToast('Store submitted! Awaiting admin approval 🎉','success');
+  renderDashboard();
+  ['storeName','storeOwner','storePhone','storeImage','storeDesc'].forEach(id=>document.getElementById(id).value='');
+}
+
+function approveStore(storeId, approve) {
+  const db = getDB();
+  const store = db.stores.find(s=>s.id===storeId);
+  if (!store) return;
+  store.approved = approve;
+  saveDB(db);
+  showToast(approve?'Store approved ✅':'Store rejected','success');
+  renderDashboard();
+}
+function deleteStore(storeId) {
+  if (!confirm('Delete this store and all its products/services?')) return;
+  const db = getDB();
+  db.stores = db.stores.filter(s=>s.id!==storeId);
+  db.products = db.products.filter(p=>p.storeId!==storeId);
+  db.services = db.services.filter(s=>s.storeId!==storeId);
+  saveDB(db);
+  showToast('Store deleted','info');
+  renderDashboard();
+}
+
+// =============================================
+//  PRODUCTS (CRUD)
+// =============================================
+function openProductModal(productId) {
+  const db = getDB();
+  document.getElementById('editProductId').value = productId||'';
+  if (productId) {
+    const p = db.products.find(p=>p.id===productId);
+    if (!p) return;
+    document.getElementById('productModalTitle').textContent = 'Edit Product';
+    document.getElementById('pName').value = p.name;
+    document.getElementById('pPrice').value = p.price;
+    document.getElementById('pCategory').value = p.category;
+    document.getElementById('pCondition').value = p.condition||'New';
+    document.getElementById('pStock').value = p.stock??1;
+    document.getElementById('pImage').value = p.image||'';
+    document.getElementById('pDesc').value = p.description||'';
+    previewImg('pImage','pImgPreview');
+  } else {
+    document.getElementById('productModalTitle').textContent = 'Add Product';
+    ['pName','pPrice','pImage','pDesc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pStock').value=1;
+    document.getElementById('pCategory').value='';
+    document.getElementById('pCondition').value='New';
+    document.getElementById('pImgPreview').classList.remove('show');
+  }
+  openModal('productModal');
+}
+
+function saveProduct() {
+  const name = document.getElementById('pName').value.trim();
+  const price = parseFloat(document.getElementById('pPrice').value);
+  const category = document.getElementById('pCategory').value;
+  const condition = document.getElementById('pCondition').value;
+  const stock = parseInt(document.getElementById('pStock').value)||0;
+  const image = document.getElementById('pImage').value.trim();
+  const desc = document.getElementById('pDesc').value.trim();
+  if (!name||!price||!category) { showToast('Please fill required fields','error'); return; }
+  const db = getDB();
+  const store = db.stores.find(s=>s.userId===currentUser.id);
+  if (!store) { showToast('You need a store first','error'); return; }
+  const editId = parseInt(document.getElementById('editProductId').value)||0;
+  if (editId) {
+    const p = db.products.find(p=>p.id===editId);
+    if (p) { Object.assign(p,{name,price,category,condition,stock,image,description:desc}); }
+  } else {
+    db.products.push({id:Date.now(),name,price,category,condition,stock,image,description:desc,storeId:store.id,storeName:store.name,sellerId:currentUser.id,createdAt:new Date().toISOString()});
+  }
+  saveDB(db);
+  closeModal('productModal');
+  showToast(editId?'Product updated':'Product added ✅','success');
+  renderDashboard();
+}
+
+function deleteProduct(productId) {
+  if (!confirm('Delete this product?')) return;
+  const db = getDB();
+  db.products = db.products.filter(p=>p.id!==productId);
+  saveDB(db);
+  showToast('Product deleted','info');
+  renderDashboard();
+}
+
+function addProduct() { openProductModal(null); }
+function editProduct(id) { openProductModal(id); }
+
+// =============================================
+//  SERVICES (CRUD)
+// =============================================
+function openServiceModal(serviceId) {
+  const db = getDB();
+  document.getElementById('editServiceId').value = serviceId||'';
+  if (serviceId) {
+    const s = db.services.find(s=>s.id===serviceId);
+    if (!s) return;
+    document.getElementById('serviceModalTitle').textContent = 'Edit Service';
+    document.getElementById('sName').value = s.name;
+    document.getElementById('sPrice').value = s.price;
+    document.getElementById('sCategory').value = s.category||'';
+    document.getElementById('sLocation').value = s.location||'';
+    document.getElementById('sProvider').value = s.providerName||'';
+    document.getElementById('sContact').value = s.contact||'';
+    document.getElementById('sDesc').value = s.description||'';
+  } else {
+    document.getElementById('serviceModalTitle').textContent = 'Add Service';
+    ['sName','sPrice','sProvider','sContact','sDesc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('sCategory').value='';
+    document.getElementById('sLocation').value='';
+  }
+  openModal('serviceModal');
+}
+
+function saveService() {
+  const name = document.getElementById('sName').value.trim();
+  const price = parseFloat(document.getElementById('sPrice').value);
+  const category = document.getElementById('sCategory').value;
+  const location = document.getElementById('sLocation').value;
+  const providerName = document.getElementById('sProvider').value.trim();
+  const contact = document.getElementById('sContact').value.trim();
+  const desc = document.getElementById('sDesc').value.trim();
+  if (!name||!price||!providerName||!contact||!location) { showToast('Please fill required fields','error'); return; }
+  const db = getDB();
+  const store = db.stores.find(s=>s.userId===currentUser.id);
+  if (!store) { showToast('You need a store first','error'); return; }
+  const editId = parseInt(document.getElementById('editServiceId').value)||0;
+  if (editId) {
+    const s = db.services.find(s=>s.id===editId);
+    if (s) Object.assign(s,{name,price,category,location,providerName,contact,description:desc});
+  } else {
+    db.services.push({id:Date.now(),name,price,category,location,providerName,contact,description:desc,storeId:store.id,storeName:store.name,sellerId:currentUser.id,createdAt:new Date().toISOString()});
+  }
+  saveDB(db);
+  closeModal('serviceModal');
+  showToast(editId?'Service updated':'Service added ✅','success');
+  renderDashboard();
+}
+
+function deleteService(serviceId) {
+  if (!confirm('Delete this service?')) return;
+  const db = getDB();
+  db.services = db.services.filter(s=>s.id!==serviceId);
+  saveDB(db);
+  showToast('Service deleted','info');
+  renderDashboard();
+}
+
+function addService() { openServiceModal(null); }
+function editService(id) { openServiceModal(id); }
+
+// =============================================
+//  DASHBOARD
+// =============================================
+let dashTab = 'overview';
+
+function renderDashboard() {
+  if (!currentUser) return;
+  const sidebar = document.getElementById('dashSidebar');
+  const content = document.getElementById('dashContent');
+  if (currentUser.role==='admin') renderAdminDashboard(sidebar, content);
+  else if (currentUser.role==='seller') renderSellerDashboard(sidebar, content);
+  else renderBuyerDashboard(sidebar, content);
+}
+
+// ---- SELLER DASHBOARD ----
+function renderSellerDashboard(sidebar, content) {
+  const db = getDB();
+  const store = db.stores.find(s=>s.userId===currentUser.id);
+  const products = store ? db.products.filter(p=>p.storeId===store.id) : [];
+  const services = store ? db.services.filter(s=>s.storeId===store.id) : [];
+  const orders = store ? db.orders.filter(o=>o.sellerId===currentUser.id) : [];
+  const revenue = orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+o.total,0);
+  const tabs = [{key:'overview',icon:'📊',label:'Overview'},{key:'store',icon:'🏪',label:'My Store'},{key:'products',icon:'📦',label:'Products'},{key:'services',icon:'🛠️',label:'Services'},{key:'orders',icon:'📋',label:'Incoming Orders'},{key:'stats',icon:'📈',label:'Statistics'}];
+  sidebar.innerHTML = `<div style="padding:16px 20px;font-size:.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;">Seller Panel</div>`+tabs.map(t=>`<button class="dash-nav-item ${dashTab===t.key?'active':''}" onclick="dashTab='${t.key}';renderDashboard()"><span class="icon">${t.icon}</span>${t.label}</button>`).join('');
+
+  if (dashTab==='overview') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Welcome, ${currentUser.username}! 👋</div><div class="dash-subtitle">Here's your store performance</div></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Products</div><div class="stat-value stat-blue">${products.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Services</div><div class="stat-value stat-orange">${services.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-value stat-green">${orders.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Revenue (ETB)</div><div class="stat-value stat-green">${revenue.toLocaleString()}</div></div>
+    </div>
+    ${!store?`<div class="empty-state"><div class="empty-icon">🏪</div><div class="empty-title">No store yet</div><div class="empty-desc">Create your store to start selling on GOFA MARKET</div><button class="btn btn-primary" onclick="openModal('storeModal')">Create Store</button></div>`:`<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;"><div style="font-size:2.5rem;">🏪</div><div style="flex:1;"><div style="font-weight:700;font-size:1.1rem;">${store.name}</div><div style="color:var(--text2);font-size:.88rem;">${store.category} · 📍 ${store.location}</div><div class="mt-8">${store.approved?'<span class="status status-approved">Approved</span>':'<span class="status status-pending">Pending Approval</span>'}</div></div></div>`}
+    <div class="mt-24"><div class="section-title mb-16" style="font-size:1.1rem;">📋 Recent Orders</div>${orders.slice(-5).reverse().map(o=>orderRowHTML(o,'seller')).join('')||'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No orders yet</div></div>'}</div>`;
+  }
+
+  if (dashTab==='store') {
+    if (!store) { content.innerHTML=`<div class="empty-state"><div class="empty-icon">🏪</div><div class="empty-title">Create Your Store</div><div class="empty-desc">Set up your store to list products and services</div><button class="btn btn-primary" onclick="openModal('storeModal')">Create Store</button></div>`; return; }
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">My Store</div></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px;">
+        ${store.image?`<img src="${store.image}" style="width:80px;height:80px;border-radius:14px;object-fit:cover;" onerror="this.remove()">`:'<div style="width:80px;height:80px;border-radius:14px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:2rem;">🏪</div>'}
+        <div style="flex:1;">
+          <div style="font-size:1.3rem;font-weight:800;">${store.name}</div>
+          <div style="color:var(--text2);">${store.category} · 📍 ${store.location}</div>
+          <div style="margin-top:8px;">${store.approved?'<span class="status status-approved">✅ Approved</span>':'<span class="status status-pending">⏳ Pending Approval</span>'}</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="form-row"><div><div style="font-size:.8rem;color:var(--text3);margin-bottom:4px;">Owner</div><div style="font-weight:600;">${store.ownerName}</div></div><div><div style="font-size:.8rem;color:var(--text3);margin-bottom:4px;">Phone</div><div style="font-weight:600;">${store.phone}</div></div></div>
+      <div class="mt-16"><div style="font-size:.8rem;color:var(--text3);margin-bottom:4px;">Description</div><div style="line-height:1.7;">${store.description||'—'}</div></div>
+      <div class="mt-20" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="https://wa.me/251${(store.phone||'').replace(/^0/,'')}" target="_blank" class="whatsapp-btn">💬 WhatsApp</a>
+        <button class="btn btn-secondary" onclick="openStore(${store.id})">View Public Page 🔗</button>
+      </div>
+    </div>`;
+  }
+
+  if (dashTab==='products') {
+    if (!store) { content.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div><div class="empty-title">Create a store first</div><button class="btn btn-primary mt-16" onclick="openModal(\'storeModal\')">Create Store</button></div>'; return; }
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Products</div></div>
+    <div style="margin-bottom:16px;"><button class="btn btn-primary" onclick="addProduct()">+ Add Product</button></div>
+    ${products.length?`<div class="table-wrapper"><table><thead><tr><th>Product</th><th>Price</th><th>Category</th><th>Condition</th><th>Stock</th><th>Actions</th></tr></thead><tbody>${products.map(p=>`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.image||'https://picsum.photos/40/40?random='+p.id}" style="width:36px;height:36px;border-radius:8px;object-fit:cover;" onerror="this.src='https://picsum.photos/40/40?random=${p.id}'"><span style="font-weight:600;">${p.name}</span></div></td><td>${fmtPrice(p.price)}</td><td><span class="tag tag-green">${p.category}</span></td><td><span class="tag tag-gray">${p.condition}</span></td><td><span class="${p.stock>0?'text-green':'text-red'}">${p.stock}</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-blue btn-sm" onclick="editProduct(${p.id})">Edit</button><button class="btn btn-red btn-sm" onclick="deleteProduct(${p.id})">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">No products yet</div><button class="btn btn-primary mt-16" onclick="addProduct()">Add Your First Product</button></div>'}`;
+  }
+
+  if (dashTab==='services') {
+    if (!store) { content.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div><div class="empty-title">Create a store first</div><button class="btn btn-primary mt-16" onclick="openModal(\'storeModal\')">Create Store</button></div>'; return; }
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Services</div></div>
+    <div style="margin-bottom:16px;"><button class="btn btn-primary" onclick="addService()">+ Add Service</button></div>
+    ${services.length?`<div class="table-wrapper"><table><thead><tr><th>Service</th><th>Price</th><th>Category</th><th>Location</th><th>Actions</th></tr></thead><tbody>${services.map(s=>`<tr><td><span style="font-weight:600;">${s.name}</span></td><td>${fmtPrice(s.price)}</td><td><span class="tag tag-blue">${s.category||'—'}</span></td><td>📍 ${s.location||'—'}</td><td><div style="display:flex;gap:6px;"><button class="btn btn-blue btn-sm" onclick="editService(${s.id})">Edit</button><button class="btn btn-red btn-sm" onclick="deleteService(${s.id})">Delete</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty-state"><div class="empty-icon">🛠️</div><div class="empty-title">No services yet</div><button class="btn btn-primary mt-16" onclick="addService()">Add Your First Service</button></div>'}`;
+  }
+
+  if (dashTab==='orders') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Incoming Orders</div><div class="dash-subtitle">${orders.length} total orders</div></div>
+    ${orders.length?orders.slice().reverse().map(o=>orderRowHTML(o,'seller')).join(''):'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No incoming orders yet</div><div class="empty-desc">When buyers order your products or services, they will appear here.</div></div>'}`;
+  }
+
+  if (dashTab==='stats') {
+    const pending = orders.filter(o=>o.status==='pending').length;
+    const confirmed = orders.filter(o=>o.status==='confirmed').length;
+    const shipped = orders.filter(o=>o.status==='shipped').length;
+    const delivered = orders.filter(o=>o.status==='delivered').length;
+    const cancelled = orders.filter(o=>o.status==='cancelled').length;
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Statistics</div></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value stat-green">${revenue.toLocaleString()}<span style="font-size:.9rem;color:var(--text2);"> ETB</span></div></div>
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value stat-blue">${orders.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Products Listed</div><div class="stat-value stat-orange">${products.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Services Listed</div><div class="stat-value stat-orange">${services.length}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+      <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value" style="color:var(--orange);">${pending}</div></div>
+      <div class="stat-card"><div class="stat-label">Confirmed</div><div class="stat-value stat-blue">${confirmed}</div></div>
+      <div class="stat-card"><div class="stat-label">Shipped</div><div class="stat-value" style="color:#8B5CF6;">${shipped}</div></div>
+      <div class="stat-card"><div class="stat-label">Delivered</div><div class="stat-value stat-green">${delivered}</div></div>
+      <div class="stat-card"><div class="stat-label">Cancelled</div><div class="stat-value stat-red">${cancelled}</div></div>
+    </div>`;
+  }
+}
+
+// ---- BUYER DASHBOARD ----
+function renderBuyerDashboard(sidebar, content) {
+  const db = getDB();
+  const orders = getOrdersByBuyer(currentUser.id);
+  const favs = db.favorites.filter(f=>f.userId===currentUser.id);
+  const addrs = getAddresses();
+  const tabs = [{key:'orders',icon:'📦',label:'My Orders'},{key:'favorites',icon:'❤️',label:'Favorites'},{key:'addresses',icon:'📍',label:'Saved Addresses'},{key:'profile',icon:'👤',label:'Profile'}];
+  sidebar.innerHTML = `<div style="padding:16px 20px;font-size:.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;">Buyer Panel</div>`+tabs.map(t=>`<button class="dash-nav-item ${dashTab===t.key?'active':''}" onclick="dashTab='${t.key}';renderDashboard()"><span class="icon">${t.icon}</span>${t.label}</button>`).join('');
+
+  if (dashTab==='orders' || dashTab==='overview') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">My Orders 📦</div><div class="dash-subtitle">${orders.length} total orders</div></div>
+    ${orders.length?orders.slice().reverse().map(o=>orderRowHTML(o,'buyer')).join(''):'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No orders yet</div><div class="empty-desc">Browse the marketplace and place your first order!</div><button class="btn btn-primary mt-16" onclick="showPage(\'marketplace\')">Browse Marketplace</button></div>'}`;
+  }
+
+  if (dashTab==='favorites') {
+    const favItems = [];
+    favs.forEach(f=>{ const db2=getDB(); const item = f.type==='product'?db2.products.find(p=>p.id===f.id):db2.services.find(s=>s.id===f.id); if(item) favItems.push({...item,itemType:f.type}); });
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Favorites ❤️</div></div>
+    ${favItems.length?`<div class="cards-grid">${favItems.map(i=>i.itemType==='product'?productCardHTML(i):serviceCardHTML(i)).join('')}</div>`:'<div class="empty-state"><div class="empty-icon">❤️</div><div class="empty-title">No favorites yet</div><div class="empty-desc">Tap the heart on any product to save it here.</div></div>'}`;
+  }
+
+  if (dashTab==='addresses') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Saved Addresses 📍</div></div>
+    ${addrs.length?addrs.map((a,i)=>`<div class="address-card mb-12"><div style="font-weight:700;margin-bottom:6px;">${a.label||a.street}</div><div style="font-size:.88rem;color:var(--text2);">${a.street}, ${a.subCity||''}, ${a.city}</div><div style="font-size:.83rem;color:var(--text3);margin-top:4px;">📞 ${a.phone||'—'}</div></div>`).join(''):'<div class="empty-state"><div class="empty-icon">📍</div><div class="empty-title">No saved addresses</div><div class="empty-desc">Save an address during checkout to see it here.</div></div>'}`;
+  }
+
+  if (dashTab==='profile') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Profile 👤</div></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:480px;">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+        <div class="avatar" style="width:56px;height:56px;font-size:1.5rem;">${currentUser.username[0].toUpperCase()}</div>
+        <div><div style="font-weight:700;font-size:1.1rem;">${currentUser.username}</div><div style="color:var(--text2);">${currentUser.email}</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="form-row mt-16">
+        <div><div style="font-size:.78rem;color:var(--text3);margin-bottom:2px;">Phone</div><div style="font-weight:500;">${currentUser.phone||'—'}</div></div>
+        <div><div style="font-size:.78rem;color:var(--text3);margin-bottom:2px;">City</div><div style="font-weight:500;">${currentUser.address||'—'}</div></div>
+      </div>
+      <div class="mt-16"><div style="font-size:.78rem;color:var(--text3);margin-bottom:2px;">Role</div><span class="tag tag-green">Buyer</span></div>
+      <div class="mt-20"><div style="font-size:.78rem;color:var(--text3);margin-bottom:2px;">Member Since</div><div style="font-weight:500;">${new Date(currentUser.createdAt).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'})}</div></div>
+    </div>`;
+  }
+}
+
+// ---- ADMIN DASHBOARD ----
+function renderAdminDashboard(sidebar, content) {
+  const db = getDB();
+  const tabs = [{key:'overview',icon:'📊',label:'Overview'},{key:'stores',icon:'🏪',label:'Stores'},{key:'users',icon:'👥',label:'Users'},{key:'orders',icon:'📋',label:'All Orders'},{key:'products',icon:'📦',label:'Products'},{key:'services',icon:'🛠️',label:'Services'}];
+  sidebar.innerHTML = `<div style="padding:16px 20px;font-size:.75rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;">Admin Panel</div>`+tabs.map(t=>`<button class="dash-nav-item ${dashTab===t.key?'active':''}" onclick="dashTab='${t.key}';renderDashboard()"><span class="icon">${t.icon}</span>${t.label}</button>`).join('');
+
+  if (dashTab==='overview') {
+    const rev = db.orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+o.total,0);
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Admin Dashboard</div><div class="dash-subtitle">GOFA MARKET Platform Overview</div></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value stat-blue">${db.users.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Stores</div><div class="stat-value stat-green">${db.stores.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Products</div><div class="stat-value stat-orange">${db.products.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-value stat-blue">${db.orders.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Revenue (ETB)</div><div class="stat-value stat-green">${rev.toLocaleString()}</div></div>
+      <div class="stat-card"><div class="stat-label">Pending Stores</div><div class="stat-value stat-orange">${db.stores.filter(s=>!s.approved).length}</div></div>
+    </div>
+    <div class="mt-16"><div class="section-title mb-16" style="font-size:1.1rem;">⏳ Pending Store Approvals</div>
+    ${db.stores.filter(s=>!s.approved).length?db.stores.filter(s=>!s.approved).map(s=>`<div class="order-card"><div class="order-card-header"><div><div style="font-weight:700;">${s.name}</div><div class="text-muted" style="font-size:.84rem;">${s.category} · 📍 ${s.location} · 👤 ${s.ownerName}</div></div><div style="display:flex;gap:8px;"><button class="btn btn-primary btn-sm" onclick="approveStore(${s.id},true)">✅ Approve</button><button class="btn btn-red btn-sm" onclick="approveStore(${s.id},false)">❌ Reject</button></div></div></div>`).join(''):`<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">All stores reviewed</div></div>`}
+    </div>
+    <div class="mt-24"><div class="section-title mb-16" style="font-size:1.1rem;">📋 Recent Orders</div>${db.orders.slice(-5).reverse().map(o=>orderRowHTML(o,'admin')).join('')||'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No orders yet</div></div>'}</div>`;
+  }
+
+  if (dashTab==='stores') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Stores Management</div></div>
+    <div class="table-wrapper"><table><thead><tr><th>Store</th><th>Category</th><th>Location</th><th>Owner</th><th>Status</th><th>Actions</th></tr></thead><tbody>${db.stores.map(s=>`<tr><td><div style="font-weight:600;">${s.name}</div></td><td>${s.category}</td><td>📍 ${s.location}</td><td>${s.ownerName}</td><td>${s.approved?'<span class="status status-approved">Approved</span>':'<span class="status status-pending">Pending</span>'}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap;">${!s.approved?`<button class="btn btn-primary btn-sm" onclick="approveStore(${s.id},true)">Approve</button><button class="btn btn-red btn-sm" onclick="approveStore(${s.id},false)">Reject</button>`:'<span class="status status-approved">Live</span>'}<button class="btn btn-red btn-sm" onclick="deleteStore(${s.id})">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text3);">No stores yet</td></tr>'}</tbody></table></div>`;
+  }
+
+  if (dashTab==='users') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">Users Management</div></div>
+    <div class="table-wrapper"><table><thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Phone</th><th>City</th><th>Joined</th></tr></thead><tbody>${db.users.map(u=>`<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="avatar" style="width:28px;height:28px;font-size:.75rem;">${u.username[0].toUpperCase()}</div><span style="font-weight:600;">${u.username}</span></div></td><td>${u.email}</td><td><span class="tag ${u.role==='admin'?'tag-red':u.role==='seller'?'tag-orange':'tag-blue'}">${u.role}</span></td><td>${u.phone||'—'}</td><td>${u.address||'—'}</td><td>${new Date(u.createdAt||Date.now()).toLocaleDateString()}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+
+  if (dashTab==='orders') {
+    const orders = getAllOrders();
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">All Orders</div><div class="dash-subtitle">${orders.length} total orders on platform</div></div>
+    ${orders.length?orders.slice().reverse().map(o=>orderRowHTML(o,'admin')).join(''):'<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No orders yet</div></div>'}`;
+  }
+
+  if (dashTab==='products') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">All Products</div></div>
+    <div class="table-wrapper"><table><thead><tr><th>Product</th><th>Store</th><th>Price</th><th>Category</th><th>Stock</th><th>Actions</th></tr></thead><tbody>${db.products.map(p=>`<tr><td><div style="display:flex;align-items:center;gap:8px;"><img src="${p.image||'https://picsum.photos/36/36?random='+p.id}" style="width:32px;height:32px;border-radius:6px;object-fit:cover;" onerror="this.remove()"><span style="font-weight:600;">${p.name}</span></div></td><td>${p.storeName||'—'}</td><td>${fmtPrice(p.price)}</td><td><span class="tag tag-green">${p.category}</span></td><td>${p.stock}</td><td><button class="btn btn-red btn-sm" onclick="deleteProduct(${p.id})">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text3);">No products</td></tr>'}</tbody></table></div>`;
+  }
+
+  if (dashTab==='services') {
+    content.innerHTML = `<div class="dash-header"><div class="dash-title">All Services</div></div>
+    <div class="table-wrapper"><table><thead><tr><th>Service</th><th>Store</th><th>Price</th><th>Location</th><th>Actions</th></tr></thead><tbody>${db.services.map(s=>`<tr><td><span style="font-weight:600;">${s.name}</span></td><td>${s.storeName||'—'}</td><td>${fmtPrice(s.price)}</td><td>📍 ${s.location||'—'}</td><td><button class="btn btn-red btn-sm" onclick="deleteService(${s.id})">Delete</button></td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text3);">No services</td></tr>'}</tbody></table></div>`;
+  }
+}
+
+// =============================================
+//  ORDER ROW HTML
+// =============================================
+function statusBadge(status) {
+  return `<span class="status status-${status}">${status.charAt(0).toUpperCase()+status.slice(1)}</span>`;
+}
+function trackHTML(status) {
+  const steps = ['pending','confirmed','shipped','delivered'];
+  const idx = steps.indexOf(status);
+  if (status==='cancelled') return `<div style="color:var(--red);font-size:.85rem;margin-top:8px;">❌ This order was cancelled</div>`;
+  return `<div class="order-track">${steps.map((s,i)=>`${i>0?`<div class="track-line ${i<=idx?'done':''}"></div>`:''}
+    <div class="track-step">
+      <div class="track-dot ${i<idx?'done':i===idx?'active':''}">${i<idx?'✓':i+1}</div>
+      <div class="track-label ${i<=idx?'done':''}">${s.charAt(0).toUpperCase()+s.slice(1)}</div>
+    </div>`).join('')}</div>`;
+}
+function orderRowHTML(o, role) {
+  const db = getDB();
+  const buyer = db.users.find(u=>u.id===o.buyerId);
+  return `<div class="order-card">
+    <div class="order-card-header">
+      <div>
+        <div class="order-id">Order #${o.orderId}</div>
+        <div style="font-weight:700;font-size:1rem;margin-top:4px;">${o.itemName}</div>
+        <div style="font-size:.83rem;color:var(--text2);">${o.itemType==='product'?'📦 Product':'🛠️ Service'} · ${o.storeName||''}</div>
+      </div>
+      <div style="text-align:right;">
+        ${statusBadge(o.status)}
+        <div style="font-weight:700;color:var(--green);font-size:1.05rem;margin-top:6px;">${fmtPrice(o.total)}</div>
+      </div>
+    </div>
+    ${trackHTML(o.status)}
+    <div class="order-meta">
+      <div class="order-meta-item"><label>Buyer</label><p>${o.buyerName||buyer?.username||'—'}</p></div>
+      <div class="order-meta-item"><label>Phone</label><p>${o.deliveryAddress?.phone||'—'}</p></div>
+      <div class="order-meta-item"><label>Delivery To</label><p>${o.deliveryAddress?.street||''}, ${o.deliveryAddress?.city||''}</p></div>
+      <div class="order-meta-item"><label>Order Date</label><p>${new Date(o.orderDate).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</p></div>
+      ${o.quantity>1?`<div class="order-meta-item"><label>Quantity</label><p>${o.quantity}</p></div>`:''}
+      ${o.deliveryAddress?.instructions?`<div class="order-meta-item" style="grid-column:1/-1;"><label>Instructions</label><p>${o.deliveryAddress.instructions}</p></div>`:''}
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">
+      ${role==='seller'||role==='admin'?`
+        ${o.status==='pending'?`<button class="btn btn-blue btn-sm" onclick="updateOrderStatus('${o.orderId}','confirmed')">✅ Confirm</button>`:''}
+        ${o.status==='confirmed'?`<button class="btn btn-orange btn-sm" onclick="updateOrderStatus('${o.orderId}','shipped')">🚚 Ship</button>`:''}
+        ${o.status==='shipped'?`<button class="btn btn-primary btn-sm" onclick="updateOrderStatus('${o.orderId}','delivered')">📬 Mark Delivered</button>`:''}
+        ${(o.status==='pending'||o.status==='confirmed')?`<button class="btn btn-red btn-sm" onclick="updateOrderStatus('${o.orderId}','cancelled')">Cancel</button>`:''}
+      `:''}
+      ${role==='buyer'&&o.status==='pending'?`<button class="btn btn-red btn-sm" onclick="cancelOrder('${o.orderId}')">Cancel Order</button>`:''}
+    </div>
+  </div>`;
+}
+
+// =============================================
+//  MODAL HELPERS
+// =============================================
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function handleOverlayClick(e,id) { if(e.target===e.currentTarget) closeModal(id); }
+
+// =============================================
+//  TOAST
+// =============================================
+const toastIcons = {success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
+function showToast(msg, type='info') {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.innerHTML = `<div class="toast-icon">${toastIcons[type]||'ℹ️'}</div><div class="toast-msg">${msg}</div><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+  container.appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(),300); },3500);
+}
+
+// =============================================
+//  IMAGE PREVIEW
+// =============================================
+function previewImg(inputId, previewId) {
+  const val = document.getElementById(inputId).value.trim();
+  const prev = document.getElementById(previewId);
+  if (val) { prev.src=val; prev.classList.add('show'); prev.onerror=()=>prev.classList.remove('show'); }
+  else { prev.classList.remove('show'); }
+}
+
+// =============================================
+//  INIT
+// =============================================
+window.addEventListener('DOMContentLoaded',()=>{
+  getDB(); // init
+  updateNav();
+  renderHome();
+  // Reset dashTab when navigating
+});
+// Default dashTab based on role
+window.showPage = (function(orig){
+  return function(name) {
+    if (name==='dashboard') {
+      if (!currentUser) { openModal('loginModal'); return; }
+      if (currentUser.role==='buyer') dashTab='orders';
+      else if (currentUser.role==='seller') dashTab='overview';
+      else dashTab='overview';
+    }
+    orig(name);
+  };
+})(showPage);
+</script>
+</body>
+</html>
